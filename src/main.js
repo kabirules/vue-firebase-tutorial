@@ -7,21 +7,25 @@ import firebase from 'firebase'
 
 Vue.config.productionTip = false
 
-  // Initialize Firebase
-  var config = {
-    apiKey: "",
-    authDomain: "ingfluencer.firebaseapp.com",
-    databaseURL: "https://ingfluencer.firebaseio.com",
-    projectId: "ingfluencer",
-    storageBucket: "ingfluencer.appspot.com",
-    messagingSenderId: ""
-  };
-  firebase.initializeApp(config);
-
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  router,
-  components: { App },
-  template: '<App/>'
-})
+// Initialize Firebase
+let app;
+let config = {
+  apiKey: "",
+  authDomain: "ingfluencer.firebaseapp.com",
+  databaseURL: "https://ingfluencer.firebaseio.com",
+  projectId: "ingfluencer",
+  storageBucket: "ingfluencer.appspot.com",
+  messagingSenderId: ""
+};
+firebase.initializeApp(config)
+firebase.auth().onAuthStateChanged(function(user) {
+  if (!app) {
+    /* eslint-disable no-new */
+    app = new Vue({
+      el: '#app',
+      template: '<App/>',
+      components: { App },
+      router
+    })
+  }
+});
